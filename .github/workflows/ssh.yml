@@ -1,0 +1,17 @@
+name: Tmate ile SSH Aç
+
+on: workflow_dispatch  # Manuel başlatma
+
+jobs:
+  ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH için Tmate Kurulumu
+        run: |
+          sudo apt update
+          sudo apt install -y tmate
+          tmate -S /tmp/tmate.sock new-session -d
+          tmate -S /tmp/tmate.sock wait tmate-ready
+          echo "SSH Bağlantı Adresiniz:"
+          tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}'
+          while true; do sleep 1000; done
